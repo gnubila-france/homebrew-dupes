@@ -30,15 +30,15 @@ class Ncurses < Formula
     ENV.append "CPPFLAGS", "-P"
 
     (lib/"pkgconfig").mkpath
-
+    
     system "./configure", "--prefix=#{prefix}",
                           "--enable-pc-files",
                           "--with-pkg-config-libdir=#{lib}/pkgconfig",
-                          "--enable-sigwinch",
-                          "--enable-symlinks",
                           "--enable-widec",
                           "--mandir=#{man}",
                           "--with-manpage-format=normal",
+                          "-without-debug",
+                          "-without-normal",
                           "--with-shared",
                           "--with-gpm=no"
     system "make", "install"
