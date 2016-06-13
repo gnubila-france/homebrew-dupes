@@ -43,13 +43,22 @@ class Unzip < Formula
   end
 
   def install
-    system "make", "-f", "unix/Makefile",
-      "CC=#{ENV.cc}",
-      "LOC=-DLARGE_FILE_SUPPORT",
-      "D_USE_BZ2=-DUSE_BZIP2",
-      "L_BZ2=-lbz2",
-      "LFLAGS1=-liconv",
-      "macosx"
+
+    args = %W[
+      CC=#{ENV.cc}
+      LOC=-DLARGE_FILE_SUPPORT
+      D_USE_BZ2=-DUSE_BZIP2
+      L_BZ2=-lbz2
+    ]
+
+    if OS.mac?
+      args << "LFLAGS1=-liconv" << "macosx"
+    else
+      # Using linux does not work
+      args <<  "macosx"
+    end
+
+    system "make", "-f", "unix/Makefile", *args
     system "make", "prefix=#{prefix}", "MANDIR=#{man1}", "install"
   end
 
