@@ -31,14 +31,16 @@ class Ncurses < Formula
 
     (lib/"pkgconfig").mkpath
     
+    system "sed -i '/LIBTOOL_INSTALL/d' c++/Makefile.in"
+
     system "./configure", "--prefix=#{prefix}",
                           "--enable-pc-files",
                           "--with-pkg-config-libdir=#{lib}/pkgconfig",
                           "--enable-widec",
                           "--mandir=#{man}",
                           "--with-manpage-format=normal",
-                          "-without-debug",
-                          "-without-normal",
+                          "--without-debug",
+                          "--without-normal",
                           "--with-shared",
                           "--with-gpm=no"
     system "make", "install"
